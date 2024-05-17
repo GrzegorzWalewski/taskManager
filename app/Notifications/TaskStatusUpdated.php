@@ -41,7 +41,7 @@ class TaskStatusUpdated extends Notification implements ShouldQueue
                     ->subject('Task Status Updated')
                     ->greeting('Hello ' . $this->task->user->name . '!')
                     ->line('The status of your task ' . $this->task->title . ' (ID: ' . $this->task->id . ') has been updated to ' . $this->task->status . '.')
-                    ->action('View Task', url('/'))
+                    ->action('View Task', route('dashboard'))
                     ->line('Thank you for using our application!');
     }
 }
