@@ -18,6 +18,8 @@ class ListTasks extends Component
     #[Validate('required', 'string', 'max:255')]
     public $description;
 
+    public $taskId;
+
     public function addTask()
     {
         $this->validate();
@@ -28,7 +30,49 @@ class ListTasks extends Component
             'description' => $this->description
         ]);
 
+        session()->flash('message', 'Task added successfully');
+        $this->dispatch('success');
+
         $this->reset();
+    }
+
+    public function deleteTask($id)
+    {
+        auth()->user()->tasks()->find($id)->delete();
+        session()->flash('message', 'Task deleted successfully');
+        $this->dispatch('success');
+    }
+
+    public function editTask($id)
+    {
+        $task = auth()->user()->tasks()->find($id);
+
+        $this->title = $task->title;
+        $this->status = $task->status;
+        $this->description = $task->description;
+        $this->taskId = $task->id;
+    }
+
+    public function updateTask()
+    {
+        $this->validate();
+
+        auth()->user()->tasks()->find($this->taskId)->update([
+            'title' => $this->title,
+            'status' => $this->status,
+            'description' => $this->description
+        ]);
+
+        $this->reset();
+        session()->flash('message', 'Task updated successfully');
+        $this->dispatch('success');
+    }
+
+    public function clearNewForm()
+    {
+        $this->title = null;
+        $this->description = null;
+        $this->taskId = null;
     }
 
     public function render()
