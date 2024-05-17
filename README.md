@@ -6,6 +6,8 @@
 ## Access live project
 Project is temporary available at: https://taskmanager.alcony.pl/
 
+Postman Collection for API is [available here](https://universal-spaceship-641904.postman.co/workspace/test~a8e355ca-8a87-4bc7-9fe8-5bd0236110f0/collection/14058032-6ff73425-21b0-4f38-a794-6d31f8efad1f?action=share&creator=14058032).
+
 ## Run project
 To run You may use [my other repo](https://github.com/GrzegorzWalewski/bitnami-laravel-quickstart)
 
