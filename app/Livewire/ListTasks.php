@@ -3,10 +3,33 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Validate;
 
 class ListTasks extends Component
 {
     public $todo, $inprogress, $completed;
+
+    #[Validate('required', 'string', 'max:255')] 
+    public $title;
+
+    #[Validate('required', 'integer', 'in:0,1,2')]
+    public $status;
+
+    #[Validate('required', 'string', 'max:255')]
+    public $description;
+
+    public function addTask()
+    {
+        $this->validate();
+
+        auth()->user()->tasks()->create([
+            'title' => $this->title,
+            'status' => $this->status,
+            'description' => $this->description
+        ]);
+
+        $this->reset();
+    }
 
     public function render()
     {
