@@ -11,4 +11,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        port: 5173,
+        host: true,
+        origin: "http://localhost:5173",
+    }
 });
