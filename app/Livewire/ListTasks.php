@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\Validate;
+use App\Models\Task;
 
 class ListTasks extends Component
 {
@@ -22,6 +23,12 @@ class ListTasks extends Component
 
     public function addTask()
     {
+        if (auth()->user()->cannot('create', Task::class)) {
+            session()->flash('message', 'You do not have permission to create tasks');
+            $this->dispatch('newMessage');
+            return;
+        }
+
         $this->validate();
 
         auth()->user()->tasks()->create([
@@ -31,16 +38,22 @@ class ListTasks extends Component
         ]);
 
         session()->flash('message', 'Task added successfully');
-        $this->dispatch('success');
+        $this->dispatch('newMessage');
 
         $this->reset();
     }
 
     public function deleteTask($id)
     {
+        if (auth()->user()->cannot('delete', Task::find($id))) {
+            session()->flash('message', 'You do not have permission to delete this task');
+            $this->dispatch('newMessage');
+            return;
+        }
+
         auth()->user()->tasks()->find($id)->delete();
         session()->flash('message', 'Task deleted successfully');
-        $this->dispatch('success');
+        $this->dispatch('newMessage');
     }
 
     public function editTask($id)
@@ -55,6 +68,12 @@ class ListTasks extends Component
 
     public function updateTask()
     {
+        if (auth()->user()->cannot('update', Task::find($this->taskId))) {
+            session()->flash('message', 'You do not have permission to update this task');
+            $this->dispatch('newMessage');
+            return;
+        }
+
         $this->validate();
 
         auth()->user()->tasks()->find($this->taskId)->update([
@@ -65,7 +84,7 @@ class ListTasks extends Component
 
         $this->reset();
         session()->flash('message', 'Task updated successfully');
-        $this->dispatch('success');
+        $this->dispatch('newMessage');
     }
 
     public function clearNewForm()

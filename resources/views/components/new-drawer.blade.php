@@ -17,6 +17,7 @@
         </svg>
         <span class="sr-only">{{ __('Close menu') }}</span>
     </button>
+    <x-action-message on="newMessage" class="mb-4">{{ session('message') }}</x-action-message>
     <form class="mb-6" wire:submit="addTask">
         <div class="mb-6">
             <input x-bind:value="newStatus" type="hidden" wire:model="status" required />
@@ -39,7 +40,7 @@
                 @error('description') <span class="error">{{ $message }}</span> @enderror
             </div>
         </div>
-        <button @click="showNewForm=false" type="submit"
+        <button type="submit"
             class="text-white justify-center flex items-center bg-blue-700 hover:bg-blue-800 w-full focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><svg
                 class="w-3.5 h-3.5 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                 viewBox="0 0 20 20">
