@@ -97,6 +97,7 @@ class TaskController extends Controller
             $task->description = $request->description;
             $task->status = $request->status;
             $task->save();
+            $task->unsetRelation('user');
 
             return response()->json($task, 200);
         }
